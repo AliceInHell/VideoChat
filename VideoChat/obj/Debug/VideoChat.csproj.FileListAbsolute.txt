@@ -1,0 +1,11 @@
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\VideoChat.exe
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\VideoChat.pdb
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\DirectX.Capture.dll
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\DShowNET.dll
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.csprojResolveAssemblyReference.cache
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.Form1.resources
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.Properties.Resources.resources
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.csproj.GenerateResource.Cache
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.exe
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.pdb
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\VideoChat.exe.config
