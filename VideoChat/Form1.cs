@@ -31,7 +31,7 @@ namespace VideoChat
 
         private void setPort_button_Click(object sender, EventArgs e)
         {
-            NewTransfer = new ImageTransfer(Convert.ToInt32(localPort_textBox.Text), Convert.ToInt32(remotePort_textBox.Text));
+            NewTransfer = new ImageTransfer(textBox1.Text, Convert.ToInt32(localPort_textBox.Text), Convert.ToInt32(remotePort_textBox.Text));
         }
     }
 }

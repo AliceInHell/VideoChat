@@ -9,3 +9,14 @@ E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\Vid
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.exe
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.pdb
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\VideoChat.exe.config
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\bin\Debug\VideoChat.exe.config
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\obj\Debug\VideoChat.exe
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\obj\Debug\VideoChat.pdb
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\bin\Debug\VideoChat.exe
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\bin\Debug\VideoChat.pdb
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\bin\Debug\DirectX.Capture.dll
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\bin\Debug\DShowNET.dll
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\obj\Debug\VideoChat.csprojResolveAssemblyReference.cache
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\obj\Debug\VideoChat.Form1.resources
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\obj\Debug\VideoChat.Properties.Resources.resources
+E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\obj\Debug\VideoChat.csproj.GenerateResource.Cache

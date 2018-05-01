@@ -11,20 +11,20 @@ namespace VideoChat
     class ImageTransfer
     {
         public static int localPort, remotePort;
-        public static IPAddress remote_address;
-
-        public ImageTransfer(int lP, int rP)
+        //public static IPAddress remote_address;
+        public static string remote_address;
+        public ImageTransfer(string IP, int lP, int rP)
         {
             localPort = lP;
             remotePort = rP;
-            remote_address = IPAddress.Parse("235.5.5.113");
+            remote_address = IP;
         }
 
         public static void SendMessage(object tmpCamera)
         {
             Thread.Sleep(100);
             UdpClient sender = new UdpClient();
-            IPEndPoint endPoint = new IPEndPoint(remote_address, remotePort);
+            //IPEndPoint endPoint = new IPEndPoint(remote_address, remotePort);
             WebCamera Camera = (WebCamera)tmpCamera;
             Image tmpImage;
             byte[] data;
@@ -32,15 +32,15 @@ namespace VideoChat
             {
                 while (true)
                 {
-                    lock(Camera.locker)
-                    {                      
+                    lock (Camera.locker)
+                    {
                         if (Camera.currentImage != null)
                         {
                             tmpImage = new Bitmap(Camera.currentImage);
-                            data = imageToByteArray(tmpImage);   
-                            sender.Send(data, data.Length, endPoint); 
+                            data = imageToByteArray(tmpImage);
+                            sender.Send(data, data.Length, remote_address, remotePort);
 
-                            Camera.currentImage = null;  
+                            Camera.currentImage = null;
                         }
                     }
                 }
@@ -59,9 +59,9 @@ namespace VideoChat
         {
             Thread.Sleep(200);
             UdpClient receiver = new UdpClient(localPort);
-            receiver.JoinMulticastGroup(remote_address, 50);
+            //receiver.JoinMulticastGroup(remote_address, 50);
             IPEndPoint remoteIP = null;
-            string localAddress = LocalIpAddress();
+            //string localAddress = LocalIpAddress();
             PictureBox Window = (PictureBox)tmpWindow;
             Image image;
             byte[] data;
@@ -69,12 +69,12 @@ namespace VideoChat
             {
                 while (true)
                 {
-                    data = receiver.Receive(ref remoteIP);                  
-                    if (remoteIP.Address.ToString().Equals(localAddress))
-                        continue;
+                    data = receiver.Receive(ref remoteIP);
+                    //if (remoteIP.Address.ToString().Equals(localAddress))
+                    //    continue;
 
                     image = byteArrayToImage(data);
-                    Window.Image = image;                    
+                    Window.Image = image;
                 }
             }
             catch (Exception ex)
