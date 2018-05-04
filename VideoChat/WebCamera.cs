@@ -65,7 +65,7 @@ namespace VideoChat
                     if(Camera.currentImage == null)
                     {
                         Camera.setCurrentImage();
-                        Thread.Sleep(10);
+                        Thread.Sleep(30);
                         //через жопу но работает
                     }                    
                 }
