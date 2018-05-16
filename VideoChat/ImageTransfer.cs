@@ -69,12 +69,13 @@ namespace VideoChat
             {
                 while (true)
                 {
+                    Thread.Sleep(10);
                     data = receiver.Receive(ref remoteIP);
                     //if (remoteIP.Address.ToString().Equals(localAddress))
                     //    continue;
 
                     image = byteArrayToImage(data);
-                    Window.Image = image;
+                    Window.Image = new Bitmap(image);
                 }
             }
             catch (Exception ex)

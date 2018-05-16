@@ -46,7 +46,7 @@ namespace VideoChat
             lock(this.pictureboxLocker)
             {
                 Bitmap tmp = (Bitmap)eventArgs.Frame.Clone();
-                hiddenWindow.Image = tmp;
+                hiddenWindow.Image = new Bitmap(tmp, new Size(640, 480));
                 mainWindow.Image = new Bitmap(tmp, new Size(160, 120));
             }
         }
@@ -56,7 +56,7 @@ namespace VideoChat
             lock(this.pictureboxLocker)
             {
                 if (hiddenWindow.Image != null)
-                    currentImage = (Bitmap)hiddenWindow.Image.Clone();
+                    currentImage = new Bitmap((Bitmap)hiddenWindow.Image.Clone(), new Size(640, 480));
             }
         }
 
