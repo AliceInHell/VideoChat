@@ -17,7 +17,8 @@ namespace VideoChat
 
         private void startDialog_button_Click(object sender, EventArgs e)
         {
-            newCamera.startTranslation(uploadedVideo_pictureBox);
+            newCamera.startTranslation(hidden_Picturebox, uploadedVideo_pictureBox);
+            Thread.Sleep(100);
 
             Thread frameThread = new Thread(new ParameterizedThreadStart(WebCamera.setFrame));
             frameThread.SetApartmentState(ApartmentState.MTA);
@@ -34,8 +35,7 @@ namespace VideoChat
 
         private void disposeCamera()
         {
-            if(newCamera.CaptureInfo != null)
-                newCamera.CaptureInfo.DisposeCapture();
+            newCamera.stopTranslation();
         }
 
         private void setPort_button_Click(object sender, EventArgs e)

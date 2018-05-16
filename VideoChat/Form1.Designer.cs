@@ -36,8 +36,10 @@
             this.startDialog_button = new System.Windows.Forms.Button();
             this.stopDialog_button = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.hidden_Picturebox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.uploadedVideo_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.receivedVideo_pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hidden_Picturebox)).BeginInit();
             this.SuspendLayout();
             // 
             // setPort_button
@@ -66,7 +68,7 @@
             // 
             // uploadedVideo_pictureBox
             // 
-            this.uploadedVideo_pictureBox.Location = new System.Drawing.Point(715, 144);
+            this.uploadedVideo_pictureBox.Location = new System.Drawing.Point(730, 63);
             this.uploadedVideo_pictureBox.Name = "uploadedVideo_pictureBox";
             this.uploadedVideo_pictureBox.Size = new System.Drawing.Size(160, 120);
             this.uploadedVideo_pictureBox.TabIndex = 3;
@@ -103,16 +105,25 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(715, 396);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 7;
+            // 
+            // hidden_Picturebox
+            // 
+            this.hidden_Picturebox.Location = new System.Drawing.Point(678, 18);
+            this.hidden_Picturebox.Name = "hidden_Picturebox";
+            this.hidden_Picturebox.Size = new System.Drawing.Size(0, 0);
+            this.hidden_Picturebox.TabIndex = 8;
+            this.hidden_Picturebox.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(939, 526);
+            this.Controls.Add(this.hidden_Picturebox);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.stopDialog_button);
             this.Controls.Add(this.startDialog_button);
@@ -126,6 +137,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.uploadedVideo_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.receivedVideo_pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hidden_Picturebox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,6 +153,7 @@
         private System.Windows.Forms.Button startDialog_button;
         private System.Windows.Forms.Button stopDialog_button;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.PictureBox hidden_Picturebox;
     }
 }
 

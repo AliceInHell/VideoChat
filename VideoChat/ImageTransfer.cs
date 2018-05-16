@@ -32,7 +32,7 @@ namespace VideoChat
             {
                 while (true)
                 {
-                    lock (Camera.locker)
+                    lock (Camera.currentImageLocker)
                     {
                         if (Camera.currentImage != null)
                         {
@@ -40,7 +40,7 @@ namespace VideoChat
                             data = imageToByteArray(tmpImage);
                             sender.Send(data, data.Length, remote_address, remotePort);
 
-                            Camera.currentImage = null;
+                            //Camera.currentImage = null;
                         }
                     }
                 }

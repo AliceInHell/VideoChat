@@ -2,57 +2,31 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
+using AForge;
+using AForge.Video;
+using AForge.Video.DirectShow;
 
 namespace VideoChat
 {
     class WebCamera
     {
-        public DirectX.Capture.Filter Camera;
-        public DirectX.Capture.Capture CaptureInfo;
-        public DirectX.Capture.Filters CamContainer;
+        private FilterInfoCollection captureDevice;
+        private VideoCaptureDevice finalFrame;
+
         public Image currentImage;
-        public object locker = new object();
+        private PictureBox mainWindow, hiddenWindow;
 
-        public void startTranslation(PictureBox window)
+        public object currentImageLocker = new object();
+        public object pictureboxLocker = new object();
+
+        public void startTranslation(PictureBox hiddenWindow, PictureBox mainWindow)
         {
-            CamContainer = new DirectX.Capture.Filters();
-
-            try
-            {
-                int no_of_cam = CamContainer.VideoInputDevices.Count;
-
-                for (int i = 0; i < no_of_cam; i++)
-                {
-                    try
-                    {
-                        // get the video input device 
-                        Camera = CamContainer.VideoInputDevices[i];
-
-                        // initialize the Capture using the video input device
-                        CaptureInfo = new DirectX.Capture.Capture(Camera, null);
-
-                        // set the input video preview window 
-                        CaptureInfo.PreviewWindow = window;
-
-                        //set frame size
-                        CaptureInfo.FrameSize = new Size(640, 480);
-
-                        CaptureInfo.RenderPreview();
-
-                        // Capturing complete event handler
-                        CaptureInfo.FrameCaptureComplete += new DirectX.Capture.Capture.FrameCapHandler(RefreshImage);
-
-                        // Capture the frame from input device 
-                        CaptureInfo.CaptureFrame();
-
-                        // if device found and initialize properly then exit without   
-                        // checking rest of input device 
-                        break;
-                    }
-                    catch (Exception ex) { }
-                }
-            }
-            catch (Exception ex){ }
+            this.mainWindow = mainWindow;
+            this.hiddenWindow = hiddenWindow;
+            captureDevice = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            finalFrame = new VideoCaptureDevice(captureDevice[0].MonikerString);
+            finalFrame.NewFrame += FinalFrame_NewFrame;
+            finalFrame.Start();
         }
 
         public static void setFrame(object tmpCamera)
@@ -60,26 +34,38 @@ namespace VideoChat
             WebCamera Camera = (WebCamera)tmpCamera;
             while (true)
             {
-                lock (Camera.locker)
-                {                    
-                    if(Camera.currentImage == null)
-                    {
-                        Camera.setCurrentImage();
-                        Thread.Sleep(30);
-                        //через жопу но работает
-                    }                    
+                lock (Camera.currentImageLocker)
+                {
+                    Camera.setCurrentImage();                  
                 }
             }
         }
 
-        private void RefreshImage(PictureBox frame)
+        private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            currentImage = frame.Image;
+            lock(this.pictureboxLocker)
+            {
+                Bitmap tmp = (Bitmap)eventArgs.Frame.Clone();
+                hiddenWindow.Image = tmp;
+                mainWindow.Image = new Bitmap(tmp, new Size(160, 120));
+            }
         }
 
         public void setCurrentImage()
         {
-            CaptureInfo.CaptureFrame();
+            lock(this.pictureboxLocker)
+            {
+                if (hiddenWindow.Image != null)
+                    currentImage = (Bitmap)hiddenWindow.Image.Clone();
+            }
+        }
+
+        public void stopTranslation()
+        {
+            if (finalFrame.IsRunning)
+            {
+                finalFrame.Stop();
+            }
         }
     }
 }
