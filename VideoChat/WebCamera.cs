@@ -8,7 +8,7 @@ using AForge.Video.DirectShow;
 
 namespace VideoChat
 {
-    class WebCamera
+    public class WebCamera
     {
         private FilterInfoCollection captureDevice;
         private VideoCaptureDevice finalFrame;
@@ -34,10 +34,15 @@ namespace VideoChat
             WebCamera Camera = (WebCamera)tmpCamera;
             while (true)
             {
-                lock (Camera.currentImageLocker)
+                if (!ImageAndAudioTransfer.stopTranslation)
                 {
-                    Camera.setCurrentImage();                  
+                    lock (Camera.currentImageLocker)
+                    {
+                        Camera.setCurrentImage();
+                    }
                 }
+                else
+                    return;
             }
         }
 
@@ -62,7 +67,7 @@ namespace VideoChat
 
         public void stopTranslation()
         {
-            if (finalFrame.IsRunning)
+            if (finalFrame != null && finalFrame.IsRunning)
             {
                 finalFrame.Stop();
             }

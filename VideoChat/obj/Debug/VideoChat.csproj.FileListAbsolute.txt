@@ -12,7 +12,6 @@ E:\2 курс 2 семестр\ксис\VideoChat\VideoChat\VideoChat\obj\Debug\
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\VideoChat.exe.config
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\VideoChat.exe
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\VideoChat.pdb
-E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.Form1.resources
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.Properties.Resources.resources
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.csproj.GenerateResource.Cache
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.exe
@@ -21,3 +20,5 @@ E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\Vid
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\AForge.dll
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\AForge.Video.DirectShow.dll
 E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\AForge.Video.dll
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\obj\Debug\VideoChat.mainForm.resources
+E:\Study\Labs\4 semester\KSiS\Курсовая\VideoChat\VideoChat\bin\Debug\NAudio.dll
