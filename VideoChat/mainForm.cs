@@ -36,10 +36,13 @@ namespace VideoChat
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (myClient.isCalling)
-                myClient.stopDialog();
-            disposeCamera();
-            leaveServer();
+            if (myClient != null)
+            {
+                if (myClient.isCalling)
+                    myClient.stopDialog();
+                disposeCamera();
+                leaveServer();
+            }
         }
 
         private void stopDialog_button_Click(object sender, EventArgs e)
@@ -48,6 +51,7 @@ namespace VideoChat
             disposeCamera();
             ImageAndAudioTransfer.stopTranslation = true;
             myClient.stopDialog();
+            MessageBox.Show("Звонок окончен");
         }
 
         private void mainForm_Load(object sender, EventArgs e)

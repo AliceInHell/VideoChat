@@ -1,0 +1,18 @@
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat\udp_chat\bin\Debug\udp_chat.exe.config
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat\udp_chat\obj\Debug\udp_chat.csprojResolveAssemblyReference.cache
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat\udp_chat\bin\Debug\udp_chat.exe
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat\udp_chat\bin\Debug\udp_chat.pdb
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat\udp_chat\obj\Debug\udp_chat.exe
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat\udp_chat\obj\Debug\udp_chat.pdb
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat — копия\udp_chat\bin\Debug\udp_chat.exe.config
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat — копия\udp_chat\obj\Debug\udp_chat.exe
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat — копия\udp_chat\obj\Debug\udp_chat.pdb
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat — копия\udp_chat\bin\Debug\udp_chat.exe
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat — копия\udp_chat\bin\Debug\udp_chat.pdb
+E:\2 курс 2 семестр\ксис\2\udp chat\udp_chat — копия\udp_chat\obj\Debug\udp_chat.csprojResolveAssemblyReference.cache
+E:\2 курс 2 семестр\ксис\VideoChat\udp_chat — копия\udp_chat\bin\Debug\udp_chat.exe.config
+E:\2 курс 2 семестр\ксис\VideoChat\udp_chat — копия\udp_chat\obj\Debug\udp_chat.exe
+E:\2 курс 2 семестр\ксис\VideoChat\udp_chat — копия\udp_chat\obj\Debug\udp_chat.pdb
+E:\2 курс 2 семестр\ксис\VideoChat\udp_chat — копия\udp_chat\obj\Debug\udp_chat.csprojResolveAssemblyReference.cache
+E:\2 курс 2 семестр\ксис\VideoChat\udp_chat — копия\udp_chat\bin\Debug\udp_chat.exe
+E:\2 курс 2 семестр\ксис\VideoChat\udp_chat — копия\udp_chat\bin\Debug\udp_chat.pdb

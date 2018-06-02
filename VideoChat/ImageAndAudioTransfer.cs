@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
 using NAudio.Wave;
-using NAudio.CoreAudioApi;
 
 namespace VideoChat
 {
@@ -21,42 +20,31 @@ namespace VideoChat
             localPort = lP;
             remotePort = rP;
             remote_address = IP;
-            stopTranslation = false;
+            ImageAndAudioTransfer.stopTranslation = false;
         }
 
-        //for audio
-        public static WaveIn input;
-        //поток для речи собеседника
-        public static WaveOut output;
-        //буфферный поток для передачи через сеть
+        public static WaveInEvent input;
+        public static WaveOutEvent output;
         public static BufferedWaveProvider bufferStream;
-        //поток для прослушивания входящих сообщений
         public static Thread audioListenerThread;
-
-        //глобальный клиент отпрвитель
-        public static UdpClient sender = new UdpClient();
+        
 
         public static void SendMessage(object tmpCamera)
         {
             Thread.Sleep(100);
-            
+            UdpClient sender = new UdpClient();
             WebCamera Camera = (WebCamera)tmpCamera;
             Image tmpImage;
             byte[] data;
 
-            /*input = new WaveIn();
-            //определяем его формат - частота дискретизации 8000 Гц, ширина сэмпла - 16 бит, 1 канал - моно
-            input.WaveFormat = new WaveFormat(8000, 16, 1);
-            //добавляем код обработки нашего голоса, поступающего на микрофон
+            input = new WaveInEvent();
+            input.WaveFormat = new WaveFormat(44100, 16, 2);
             input.DataAvailable += Voice_Input;
-            //создаем поток для прослушивания входящего звука
-            output = new WaveOut();
-            //создаем поток для буферного потока и определяем у него такой же формат как и потока с микрофона
-            bufferStream = new BufferedWaveProvider(new WaveFormat(8000, 16, 1));
-            //привязываем поток входящего звука к буферному потоку
+            output = new WaveOutEvent();
+            bufferStream = new BufferedWaveProvider(new WaveFormat(44100, 16, 2));
             output.Init(bufferStream);
 
-            input.StartRecording();*/
+            input.StartRecording();
             try
             {
                 while (true)
@@ -69,6 +57,7 @@ namespace VideoChat
                             {
                                 tmpImage = new Bitmap(Camera.currentImage);
                                 data = imageToByteArray(tmpImage);
+                                data = Combine(data, 2);
                                 sender.Send(data, data.Length, remote_address, remotePort);
                             }
                         }
@@ -89,9 +78,12 @@ namespace VideoChat
 
         private static void Voice_Input(object sender, WaveInEventArgs e)
         {
+            UdpClient audioSender = new UdpClient();
             try
             {
-                ImageAndAudioTransfer.sender.Send(e.Buffer, e.Buffer.Length, remote_address, remotePort);
+                byte[] tmp;
+                tmp = Combine(e.Buffer, 1);
+                audioSender.Send(tmp, tmp.Length, remote_address, remotePort);
             }
             catch (Exception ex)
             {
@@ -101,15 +93,14 @@ namespace VideoChat
 
         public static void ReceiveMessage(object tmpWindow)
         {
-            Thread.Sleep(200);
+            Thread.Sleep(1000);
             UdpClient receiver = new UdpClient(localPort);
-            //receiver.JoinMulticastGroup(remote_address, 50);
             IPEndPoint remoteIP = null;
-            //string localAddress = LocalIpAddress();
             PictureBox Window = (PictureBox)tmpWindow;
             Image image;
             byte[] data;
-            //output.Play();
+            output.Play();
+
             try
             {
                 while (true)
@@ -118,11 +109,20 @@ namespace VideoChat
                     {
                         Thread.Sleep(5);
                         data = receiver.Receive(ref remoteIP);
-                        //проверка
-                        image = byteArrayToImage(data);
-                        Window.Image = new Bitmap(image);
 
-                        //bufferStream.AddSamples(data, 0, data.Length);
+                        //проверка
+                        if (data[data.Length - 1] == 1)
+                        {
+                            bufferStream.ClearBuffer();
+                            Array.Resize(ref data, data.Length - 1);
+                            bufferStream.AddSamples(data, 0, data.Length);
+                        }
+                        else
+                        {
+                            Array.Resize(ref data, data.Length - 1);
+                            image = byteArrayToImage(data);
+                            Window.Image = new Bitmap(image);
+                        }
                     }
                     else
                         return;
@@ -152,5 +152,11 @@ namespace VideoChat
             return returnImage;
         }
 
+        private static byte[] Combine(byte[] a1, byte a2)
+        {
+            Array.Resize(ref a1, a1.Length + 1);
+            a1[a1.Length - 1] = a2;
+            return a1;
+        }
     }
 }

@@ -51,7 +51,6 @@ namespace VideoChat
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
                     localIP = ip.ToString();
-                    break;
                 }
             }
             return localIP;
@@ -67,60 +66,72 @@ namespace VideoChat
 
         private void processing(string[] tmp)
         {
-            if (tmp[0] == "4" && tmp.Length == 5)
+            try
             {
-                byte[] output;
-                UdpClient sender = new UdpClient();
-                DialogResult result = MessageBox.Show(
-                "ВХОДЯЩИЙ ВЫЗОВ ОТ " + getUserName(Convert.ToInt32(tmp[1])),
-                "ОТВЕТИТЬ?",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                if (result == DialogResult.Yes)
+                if (tmp[0] == "4" && tmp.Length == 5)
                 {
-                    output = Encoding.Unicode.GetBytes(String.Format("4|T|{0}|{1}", myID, tmp[1]));
-                    usersID = Convert.ToInt32(tmp[1]);
-                    startDialog(Convert.ToInt32(tmp[3]), tmp[2]);
+                    byte[] output;
+                    UdpClient sender = new UdpClient();
+                    DialogResult result = MessageBox.Show(
+                    "ВХОДЯЩИЙ ВЫЗОВ ОТ " + getUserName(Convert.ToInt32(tmp[1])),
+                    "ОТВЕТИТЬ?",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
+                    if (result == DialogResult.Yes)
+                    {
+                        output = Encoding.Unicode.GetBytes(String.Format("4|T|{0}|{1}", myID, tmp[1]));
+                        usersID = Convert.ToInt32(tmp[1]);
+                        startDialog(Convert.ToInt32(tmp[3]), tmp[2]);
+                        isCalling = true;
+                    }
+                    else
+                        output = Encoding.Unicode.GetBytes(String.Format("4|F|{0}|{1}", myID, tmp[1]));
+                    sender.Send(output, output.Length, remoteIP, remotePort);
+                    sender.Close();
+                }
+                if (tmp[0] == "3")
+                {
+                    user tmpUser;
+                    usersList.Clear();
+                    GUIList.Items.Clear();
+
+                    for (int i = 1; i < tmp.Length - 1; i += 2)
+                    {
+                        tmpUser.name = tmp[i];
+                        tmpUser.id = Convert.ToInt32(tmp[i + 1]);
+                        usersList.Add(tmpUser);
+                    }
+
+                    //заполнение интерфейсного списка
+                    foreach (user usr in usersList)
+                        GUIList.Items.Insert(GUIList.Items.Count, usr.name);
+                }
+                //если ответ получен, то 
+                if (tmp[0] == "4" && tmp[1] != "0" && tmp.Length == 4)
+                {
                     isCalling = true;
+                    startDialog(Convert.ToInt32(tmp[2]), tmp[1]);
                 }
-                else
-                    output = Encoding.Unicode.GetBytes(String.Format("4|F|{0}|{1}", myID, tmp[1]));
-                sender.Send(output, output.Length, remoteIP, remotePort);
-                sender.Close();
-            }
-            if (tmp[0] == "3")
-            {
-                user tmpUser;
-                usersList.Clear();
-                GUIList.Items.Clear();
-
-                for (int i = 1; i < tmp.Length - 1; i += 2)
+                if (tmp[0] == "4" && tmp[1] == "0")
+                    MessageBox.Show("Пользователь сбросил");
+                if (tmp[0] == "5")
                 {
-                    tmpUser.name = tmp[i];
-                    tmpUser.id = Convert.ToInt32(tmp[i + 1]);
-                    usersList.Add(tmpUser);
+                    isCalling = false;
+                    ImageAndAudioTransfer.stopTranslation = true;
+                    myCamera.stopTranslation();
+                    disposeAndClear();
+                    MessageBox.Show("Звонок окончен");
                 }
-
-                //заполнение интерфейсного списка
-                foreach (user usr in usersList)
-                    GUIList.Items.Insert(GUIList.Items.Count, usr.name);
             }
-            //если ответ получен, то 
-            if (tmp[0] == "4" && tmp[1] != "0" && tmp.Length == 4)
+            catch (Exception ex)
             {
-                isCalling = true;
-                startDialog(Convert.ToInt32(tmp[2]), tmp[1]);
+                MessageBox.Show(ex.Message);
             }
-            if (tmp[0] == "4" && tmp[1] == "0")
-                MessageBox.Show("Пользователь сбросил");
-            if (tmp[0] == "5")
+            finally
             {
-                isCalling = false;
-                ImageAndAudioTransfer.stopTranslation = true;
-                myCamera.stopTranslation();
-                disposeAndClear();
+                //this.leaveServer();
             }
         }
 
@@ -136,22 +147,40 @@ namespace VideoChat
 
         public void stopDialog()
         {
-            UdpClient sender = new UdpClient();
-            byte[] data = Encoding.Unicode.GetBytes(String.Format("5|{0}|{1}", myID, usersID));
-            sender.Send(data, data.Length, remoteIP, remotePort);
-            sender.Close();
+            try
+            {
+                UdpClient sender = new UdpClient();
+                byte[] data = Encoding.Unicode.GetBytes(String.Format("5|{0}|{1}", myID, usersID));
+                sender.Send(data, data.Length, remoteIP, remotePort);
+                sender.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private static void callListener(object x)
         {
-            UdpClient receiver = new UdpClient(localPort);
-            IPEndPoint remoteIP = null;
-            byte[] data;
-            while (true)
+            try
             {
-                data = receiver.Receive(ref remoteIP);
-                string[] tmp = (Encoding.Unicode.GetString(data)).Split('|');
-                ((Client)x).processing(tmp);
+                UdpClient receiver = new UdpClient(localPort);
+                IPEndPoint remoteIP = null;
+                byte[] data;
+                while (true)
+                {
+                    data = receiver.Receive(ref remoteIP);
+                    string[] tmp = (Encoding.Unicode.GetString(data)).Split('|');
+                    ((Client)x).processing(tmp);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                ((Client)x).leaveServer();
             }
         }
 
@@ -174,29 +203,36 @@ namespace VideoChat
 
         public void connectToServer(string remoteIP)
         {
-            //отправить пакет на подключение
-            UdpClient sender = new UdpClient();
-            byte[] data = Encoding.Unicode.GetBytes(String.Format("1|{0}|{1}|{2}|{3}", myName, LocalIpAddress(), localPort, openPort));
-            sender.Send(data, data.Length, remoteIP, remotePort);
-            sender.Close();
-
-            UdpClient receiver = new UdpClient(localPort);
-            IPEndPoint remoteIp = null;
-            data = receiver.Receive(ref remoteIp);
-            string[] tmp = (Encoding.Unicode.GetString(data)).Split('|');
-
-            if (tmp[0] == "1" && tmp[1] != "0" && tmp.Length == 2)
+            try
             {
-                this.isConnected = true;
-                this.remoteIP = remoteIP;
-                myID = Convert.ToInt32(tmp[1]);
-                this.remoteIP = remoteIP;
-                MessageBox.Show(tmp[1]);
-                receiver.Close();
-                listeningThread.Start(this);
+                //отправить пакет на подключение
+                UdpClient sender = new UdpClient();
+                byte[] data = Encoding.Unicode.GetBytes(String.Format("1|{0}|{1}|{2}|{3}", myName, LocalIpAddress(), localPort, openPort));
+                sender.Send(data, data.Length, remoteIP, remotePort);
+                sender.Close();
+
+                UdpClient receiver = new UdpClient(localPort);
+                IPEndPoint remoteIp = null;
+                data = receiver.Receive(ref remoteIp);
+                string[] tmp = (Encoding.Unicode.GetString(data)).Split('|');
+
+                if (tmp[0] == "1" && tmp[1] != "0" && tmp.Length == 2)
+                {
+                    this.isConnected = true;
+                    this.remoteIP = remoteIP;
+                    myID = Convert.ToInt32(tmp[1]);
+                    this.remoteIP = remoteIP;
+                    MessageBox.Show("WELCOME!");
+                    receiver.Close();
+                    listeningThread.Start(this);
+                }
+                else
+                    receiver.Close();
             }
-            else
-                receiver.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public void call(int index)
@@ -218,14 +254,19 @@ namespace VideoChat
             Thread.Sleep(100);
 
             Thread frameThread = new Thread(new ParameterizedThreadStart(WebCamera.setFrame));
+            frameThread.Name = "frameThread";
             frameThread.SetApartmentState(ApartmentState.MTA);
             frameThread.Start(myCamera);
 
             Thread sendThread = new Thread(new ParameterizedThreadStart(ImageAndAudioTransfer.SendMessage));
+            sendThread.Name = "sendThread";
+            sendThread.IsBackground = true;
             sendThread.SetApartmentState(ApartmentState.MTA);
             sendThread.Start(myCamera);
 
             Thread receiveThread = new Thread(new ParameterizedThreadStart(ImageAndAudioTransfer.ReceiveMessage));
+            receiveThread.Name = "receiveThread";
+            receiveThread.IsBackground = true;
             receiveThread.SetApartmentState(ApartmentState.MTA);
             receiveThread.Start(receivedVideo_pictureBox);
         }
